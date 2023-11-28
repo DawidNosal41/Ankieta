@@ -49,8 +49,8 @@ namespace Ankieta.Controllers
         // GET: OdpowiedzUzytkownika/Create
         public IActionResult Create()
         {
-            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Id");
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Id");
+            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc");
+            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name");
             return View();
         }
 
@@ -85,8 +85,8 @@ namespace Ankieta.Controllers
             {
                 return NotFound();
             }
-            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Id", odpowiedzUzytkownika.OdpowiedzId);
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Id", odpowiedzUzytkownika.UzytkownikId);
+            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc", odpowiedzUzytkownika.OdpowiedzId);
+            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
             return View(odpowiedzUzytkownika);
         }
 
@@ -122,8 +122,8 @@ namespace Ankieta.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Id", odpowiedzUzytkownika.OdpowiedzId);
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Id", odpowiedzUzytkownika.UzytkownikId);
+            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc", odpowiedzUzytkownika.OdpowiedzId);
+            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
             return View(odpowiedzUzytkownika);
         }
 

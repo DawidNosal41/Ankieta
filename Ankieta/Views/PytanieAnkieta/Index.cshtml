@@ -30,11 +30,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Ankieta.Id)
             </td>
+
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button asp-action="Edit" asp-route-id="@item.Id">Edycja</button> |
+                    <button asp-action="Details" asp-route-id="@item.Id">Detale</button> |
+                    <button asp-action="Delete" asp-route-id="@item.Id">Usuwanie</button>
+                </div>
+
+
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <button asp-action="Edit" asp-route-id="@item.Id">Edit</button> |
+                <button asp-action="Details" asp-route-id="@item.Id">Details</button> |
+                <button asp-action="Delete" asp-route-id="@item.Id">Delete</button>
             </td>
+
         </tr>
 }
     </tbody>

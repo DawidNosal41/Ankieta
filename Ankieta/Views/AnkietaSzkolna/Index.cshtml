@@ -4,11 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Nasze ankiety</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
         <tr>
@@ -43,13 +41,16 @@
                 @Html.DisplayFor(modelItem => item.EndData)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a class="btn-primary btn" asp-controller="OdpowiedzUzytkownika" asp-action="Index">Napisz swoją odpowiedź</a>
-                <a asp-action="Ankieta1" asp-route-id="@item.Id">Ankieta 1</a>
+                <a class="btn-primary btn" asp-controller="Pytanie" asp-action="Index">Weź udział</a>
             </td>
         </tr>
+
 }
     </tbody>
 </table>
+
+<center>
+<p>
+    <a asp-action="Create" type="button" class="btn btn-secondary btn-lg btn-block">Utwórz swoją ankietę</a>
+</p>
+</center>

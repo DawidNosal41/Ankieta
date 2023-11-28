@@ -3,7 +3,6 @@
     public class OdpowiedzUzytkownika
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Tresc { get; set; }
 
         public int UzytkownikId { get; set; }
