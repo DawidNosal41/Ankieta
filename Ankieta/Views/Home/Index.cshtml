@@ -1,11 +1,38 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+<body>
 
-<body class="background">
-<div class="text-center">
-    <h1 class="display-4">Witamy</h1>
+    <center>
+        <div style="height:80vh;background-image:url(https://miro.medium.com/v2/resize:fit:1400/1*dl0Siw1bmtJwIdvPJCO0pQ.png); background-size:cover; background-repeat: no-repeat; background-position:top ;">
 
-</div>
+        <ul class="navbar-nav">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <br>
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="button" class="btn btn-danger">Wyloguj się</button> <button type="button" class="btn btn-success"><a class="nav-link text-dark" asp-area="" asp-controller="Uzytkownik" asp-action="Index">Przejdź dalej -></a></button>
+                    </form>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <div class="d-grid gap-2 col-6 mx-auto">
+                            <button class="btn btn-primary" type="button"><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Zarejestruj się</a></button>
+                            <button class="btn btn-primary" type="button"><a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a></button>
+                        </div>
+                    </form>
+                </li>
+
+            }
+        </ul>
+    </center>
 </body>

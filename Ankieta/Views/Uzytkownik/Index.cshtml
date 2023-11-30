@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Ankieta.Models.Uzytkownik>
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-
+<body style="color: black">
+<center>
+        <div style="height:80vh;background-image:url(https://static.vecteezy.com/system/resources/thumbnails/003/127/955/small/abstract-white-and-grey-background-with-dynamic-waves-shape-free-vector.jpg); background-size:cover; background-repeat: no-repeat; background-position:top ;">
+<h1>Zapisz się</h1>
 <p>
-    <a asp-action="Create">Create New</a>
+        <button type="button" class="btn btn-dark"><a style="text-decoration: none; color: white" asp-action="Create">Wpisz swoje imie i nazwisko</a></button>
 </p>
+
+
 <table class="table">
     <thead>
         <tr>
@@ -35,9 +35,9 @@
                 @Html.DisplayFor(modelItem => item.UzytkownikUser.UserName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <button type="button" class="btn btn-warning"><a style="text-decoration: none; color: white" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a></button> |
+                <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white " asp-action="Details" asp-route-id="@item.Id">Detale</a></button> |
+                <button type="button" class="btn btn-danger"><a style="text-decoration: none; color: white" asp-action="Delete" asp-route-id="@item.Id">Usuwanie</a></button>
             </td>
         </tr>
 }
@@ -45,28 +45,12 @@
 </table>
 
 
-<center>
-<ul class="navbar-nav">
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Cześć @User.Identity?.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Uzytkownik", new { area = "" })">
-                <button type="submit" class="btn btn-danger" class="nav-link btn btn-link text-dark">Wyloguj się</button>
-            </form>
-        </li>
-    }
-    else
-    {
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Uzytkownik", new { area = "" })">
-            <a class="btn btn-success" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Zarejestruj się</a>
-            <a class="btn btn-success" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Zaloguj się</a>
-            </form>
-        </li>
+    <border style="border: 100px solid grey; border-width: 5px; border-style: ridge; border-color: grey; background-color: grey">
+        <i>Po zapisaniu się i zarejestrowaniu, kliknij w szary przycisk poniżej, żeby zobaczyć nasze ankiety</i>
+        </br>
+    </border>
+    </br>
+    <button type="button" class="btn btn-secondary btn-lg btn-block"><a class="nav-link text-dark" asp-area="" asp-controller="AnkietaSzkolna" asp-action="Index">Nasze ankiety</a></button>
 
-    }
-</ul>
 </center>
+</body>

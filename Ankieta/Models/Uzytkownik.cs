@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace Ankieta.Models
 {
@@ -8,6 +9,7 @@ namespace Ankieta.Models
         public string Name { get; set; }
 
         public string UzytkownikUserId { get; set; }
+        [Display(Name = "Twój e-mail")]
         public IdentityUser? UzytkownikUser { get; set; }
 
         public ICollection<OdpowiedzUzytkownika> OdpowiedzUzytkownikas { get; } = new List<OdpowiedzUzytkownika>();
