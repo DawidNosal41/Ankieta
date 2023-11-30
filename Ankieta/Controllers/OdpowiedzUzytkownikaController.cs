@@ -22,7 +22,7 @@ namespace Ankieta.Controllers
         // GET: OdpowiedzUzytkownika
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.OdpowiedzUzytkownika.Include(o => o.Odpowiedz).Include(o => o.Uzytkownik);
+            var applicationDbContext = _context.OdpowiedzUzytkownika.Include(o => o.Odpowiedz).Include(o => o.Pytanie).Include(o => o.Uzytkownik);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,6 +36,7 @@ namespace Ankieta.Controllers
 
             var odpowiedzUzytkownika = await _context.OdpowiedzUzytkownika
                 .Include(o => o.Odpowiedz)
+                .Include(o => o.Pytanie)
                 .Include(o => o.Uzytkownik)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (odpowiedzUzytkownika == null)
@@ -50,7 +51,8 @@ namespace Ankieta.Controllers
         public IActionResult Create()
         {
             ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc");
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name");
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc");
+            ViewData["UzytkownikId"] = new SelectList(_context.Uzytkownik, "Id", "Name");
             return View();
         }
 
@@ -59,7 +61,7 @@ namespace Ankieta.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tresc,UzytkownikId,OdpowiedzId")] OdpowiedzUzytkownika odpowiedzUzytkownika)
+        public async Task<IActionResult> Create([Bind("Id,PytanieId,OdpowiedzId,UzytkownikId")] OdpowiedzUzytkownika odpowiedzUzytkownika)
         {
             if (ModelState.IsValid)
             {
@@ -67,8 +69,9 @@ namespace Ankieta.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Id", odpowiedzUzytkownika.OdpowiedzId);
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Id", odpowiedzUzytkownika.UzytkownikId);
+            ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc", odpowiedzUzytkownika.OdpowiedzId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedzUzytkownika.PytanieId);
+            ViewData["UzytkownikId"] = new SelectList(_context.Uzytkownik, "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
             return View(odpowiedzUzytkownika);
         }
 
@@ -86,7 +89,8 @@ namespace Ankieta.Controllers
                 return NotFound();
             }
             ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc", odpowiedzUzytkownika.OdpowiedzId);
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedzUzytkownika.PytanieId);
+            ViewData["UzytkownikId"] = new SelectList(_context.Uzytkownik, "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
             return View(odpowiedzUzytkownika);
         }
 
@@ -95,7 +99,7 @@ namespace Ankieta.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tresc,UzytkownikId,OdpowiedzId")] OdpowiedzUzytkownika odpowiedzUzytkownika)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PytanieId,OdpowiedzId,UzytkownikId")] OdpowiedzUzytkownika odpowiedzUzytkownika)
         {
             if (id != odpowiedzUzytkownika.Id)
             {
@@ -123,7 +127,8 @@ namespace Ankieta.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["OdpowiedzId"] = new SelectList(_context.Odpowiedz, "Id", "Tresc", odpowiedzUzytkownika.OdpowiedzId);
-            ViewData["UzytkownikId"] = new SelectList(_context.Set<Uzytkownik>(), "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedzUzytkownika.PytanieId);
+            ViewData["UzytkownikId"] = new SelectList(_context.Uzytkownik, "Id", "Name", odpowiedzUzytkownika.UzytkownikId);
             return View(odpowiedzUzytkownika);
         }
 
@@ -137,6 +142,7 @@ namespace Ankieta.Controllers
 
             var odpowiedzUzytkownika = await _context.OdpowiedzUzytkownika
                 .Include(o => o.Odpowiedz)
+                .Include(o => o.Pytanie)
                 .Include(o => o.Uzytkownik)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (odpowiedzUzytkownika == null)

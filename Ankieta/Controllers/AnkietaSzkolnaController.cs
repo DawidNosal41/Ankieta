@@ -22,20 +22,20 @@ namespace Ankieta.Controllers
         // GET: AnkietaSzkolna
         public async Task<IActionResult> Index()
         {
-              return _context.Ankieta != null ? 
-                          View(await _context.Ankieta.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Ankieta'  is null.");
+              return _context.AnkietaSzkolna != null ? 
+                          View(await _context.AnkietaSzkolna.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.AnkietaSzkolna'  is null.");
         }
 
         // GET: AnkietaSzkolna/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Ankieta == null)
+            if (id == null || _context.AnkietaSzkolna == null)
             {
                 return NotFound();
             }
 
-            var ankietaSzkolna = await _context.Ankieta
+            var ankietaSzkolna = await _context.AnkietaSzkolna
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ankietaSzkolna == null)
             {
@@ -70,12 +70,12 @@ namespace Ankieta.Controllers
         // GET: AnkietaSzkolna/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Ankieta == null)
+            if (id == null || _context.AnkietaSzkolna == null)
             {
                 return NotFound();
             }
 
-            var ankietaSzkolna = await _context.Ankieta.FindAsync(id);
+            var ankietaSzkolna = await _context.AnkietaSzkolna.FindAsync(id);
             if (ankietaSzkolna == null)
             {
                 return NotFound();
@@ -121,12 +121,12 @@ namespace Ankieta.Controllers
         // GET: AnkietaSzkolna/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Ankieta == null)
+            if (id == null || _context.AnkietaSzkolna == null)
             {
                 return NotFound();
             }
 
-            var ankietaSzkolna = await _context.Ankieta
+            var ankietaSzkolna = await _context.AnkietaSzkolna
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (ankietaSzkolna == null)
             {
@@ -141,14 +141,14 @@ namespace Ankieta.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Ankieta == null)
+            if (_context.AnkietaSzkolna == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Ankieta'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.AnkietaSzkolna'  is null.");
             }
-            var ankietaSzkolna = await _context.Ankieta.FindAsync(id);
+            var ankietaSzkolna = await _context.AnkietaSzkolna.FindAsync(id);
             if (ankietaSzkolna != null)
             {
-                _context.Ankieta.Remove(ankietaSzkolna);
+                _context.AnkietaSzkolna.Remove(ankietaSzkolna);
             }
             
             await _context.SaveChangesAsync();
@@ -157,7 +157,7 @@ namespace Ankieta.Controllers
 
         private bool AnkietaSzkolnaExists(int id)
         {
-          return (_context.Ankieta?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.AnkietaSzkolna?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

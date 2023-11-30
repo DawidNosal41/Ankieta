@@ -10,11 +10,17 @@ namespace Ankieta.Data
             : base(options)
         {
         }
-        public DbSet<Ankieta.Models.AnkietaSzkolna>? Ankieta { get; set; }
+        public DbSet<Ankieta.Models.AnkietaSzkolna>? AnkietaSzkolna { get; set; }
         public DbSet<Ankieta.Models.Odpowiedz>? Odpowiedz { get; set; }
         public DbSet<Ankieta.Models.OdpowiedzUzytkownika>? OdpowiedzUzytkownika { get; set; }
         public DbSet<Ankieta.Models.Pytanie>? Pytanie { get; set; }
-        public DbSet<Ankieta.Models.PytanieAnkieta>? PytanieAnkieta { get; set; }
         public DbSet<Ankieta.Models.Uzytkownik>? Uzytkownik { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<OdpowiedzUzytkownika>().HasOne(e=>e.Pytanie).WithMany(e=>e.OdpowiedzUzytkownika).Metadata.DeleteBehavior=DeleteBehavior.Restrict;
+            //builder.Entity<OdpowiedzUzytkownika>().HasOne(e => e.Pytanie).WithMany(e => e.OdpowiedzUzytkownika).Metadata.DeleteBehavior = DeleteBehavior.Restrict;
+        }
     }
 }

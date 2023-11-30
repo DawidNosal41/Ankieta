@@ -4,9 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Nasze ankiety</h1>
+<h1>Index</h1>
 
-
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -41,16 +43,12 @@
                 @Html.DisplayFor(modelItem => item.EndData)
             </td>
             <td>
-                <a class="btn-primary btn" asp-controller="Pytanie" asp-action="Index">Weź udział</a>
+                    <li class="nav-item">
+                        <a type="button" class="btn btn-success" asp-area="" asp-controller="Pytanie" asp-action="Index">Weź udział</a>
+                    </li>
+
             </td>
         </tr>
-
 }
     </tbody>
 </table>
-
-<center>
-<p>
-    <a asp-action="Create" type="button" class="btn btn-secondary btn-lg btn-block">Utwórz swoją ankietę</a>
-</p>
-</center>

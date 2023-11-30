@@ -6,6 +6,11 @@
         public string Tresc { get; set; }
         public string TypPytania { get; set; }
 
-        public ICollection<PytanieAnkieta> PytanieAnkietas { get; } = new List<PytanieAnkieta>();
+        public int AnkietaSzkolnaId { get; set; }
+        public AnkietaSzkolna? AnkietaSzkolna { get; set; }
+
+        public ICollection<Odpowiedz> Odpowiedzi { get;  } = new List<Odpowiedz>();
+        public ICollection<OdpowiedzUzytkownika> OdpowiedzUzytkownika { get; } = new List<OdpowiedzUzytkownika>();
+
     }
 }

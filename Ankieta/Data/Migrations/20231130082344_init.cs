@@ -10,7 +10,7 @@ namespace Ankieta.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Ankieta",
+                name: "AnkietaSzkolna",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -22,20 +22,7 @@ namespace Ankieta.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ankieta", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Odpowiedz",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Tresc = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Odpowiedz", x => x.Id);
+                    table.PrimaryKey("PK_AnkietaSzkolna", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -44,36 +31,16 @@ namespace Ankieta.Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    UzytkownikUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Uzytkownik", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OdpowiedzUzytkownika",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Tresc = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UzytkownikId = table.Column<int>(type: "int", nullable: false),
-                    OdpowiedzId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OdpowiedzUzytkownika", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OdpowiedzUzytkownika_Odpowiedz_OdpowiedzId",
-                        column: x => x.OdpowiedzId,
-                        principalTable: "Odpowiedz",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OdpowiedzUzytkownika_Uzytkownik_UzytkownikId",
-                        column: x => x.UzytkownikId,
-                        principalTable: "Uzytkownik",
+                        name: "FK_Uzytkownik_AspNetUsers_UzytkownikUserId",
+                        column: x => x.UzytkownikUserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -86,43 +53,77 @@ namespace Ankieta.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Tresc = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TypPytania = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OdpowiedzUzytkownikaId = table.Column<int>(type: "int", nullable: true)
+                    AnkietaSzkolnaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Pytanie", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Pytanie_OdpowiedzUzytkownika_OdpowiedzUzytkownikaId",
-                        column: x => x.OdpowiedzUzytkownikaId,
-                        principalTable: "OdpowiedzUzytkownika",
-                        principalColumn: "Id");
+                        name: "FK_Pytanie_AnkietaSzkolna_AnkietaSzkolnaId",
+                        column: x => x.AnkietaSzkolnaId,
+                        principalTable: "AnkietaSzkolna",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "PytanieAnkieta",
+                name: "Odpowiedz",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PytanieId = table.Column<int>(type: "int", nullable: false),
-                    AnkietaId = table.Column<int>(type: "int", nullable: false)
+                    Tresc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PytanieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PytanieAnkieta", x => x.Id);
+                    table.PrimaryKey("PK_Odpowiedz", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PytanieAnkieta_Ankieta_AnkietaId",
-                        column: x => x.AnkietaId,
-                        principalTable: "Ankieta",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PytanieAnkieta_Pytanie_PytanieId",
+                        name: "FK_Odpowiedz_Pytanie_PytanieId",
                         column: x => x.PytanieId,
                         principalTable: "Pytanie",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "OdpowiedzUzytkownika",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Tresc = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PytanieId = table.Column<int>(type: "int", nullable: false),
+                    OdpowiedzId = table.Column<int>(type: "int", nullable: false),
+                    UzytkownikId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OdpowiedzUzytkownika", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OdpowiedzUzytkownika_Odpowiedz_OdpowiedzId",
+                        column: x => x.OdpowiedzId,
+                        principalTable: "Odpowiedz",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OdpowiedzUzytkownika_Pytanie_PytanieId",
+                        column: x => x.PytanieId,
+                        principalTable: "Pytanie",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OdpowiedzUzytkownika_Uzytkownik_UzytkownikId",
+                        column: x => x.UzytkownikId,
+                        principalTable: "Uzytkownik",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Odpowiedz_PytanieId",
+                table: "Odpowiedz",
+                column: "PytanieId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OdpowiedzUzytkownika_OdpowiedzId",
@@ -130,37 +131,28 @@ namespace Ankieta.Data.Migrations
                 column: "OdpowiedzId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_OdpowiedzUzytkownika_PytanieId",
+                table: "OdpowiedzUzytkownika",
+                column: "PytanieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_OdpowiedzUzytkownika_UzytkownikId",
                 table: "OdpowiedzUzytkownika",
                 column: "UzytkownikId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pytanie_OdpowiedzUzytkownikaId",
+                name: "IX_Pytanie_AnkietaSzkolnaId",
                 table: "Pytanie",
-                column: "OdpowiedzUzytkownikaId");
+                column: "AnkietaSzkolnaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PytanieAnkieta_AnkietaId",
-                table: "PytanieAnkieta",
-                column: "AnkietaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PytanieAnkieta_PytanieId",
-                table: "PytanieAnkieta",
-                column: "PytanieId");
+                name: "IX_Uzytkownik_UzytkownikUserId",
+                table: "Uzytkownik",
+                column: "UzytkownikUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "PytanieAnkieta");
-
-            migrationBuilder.DropTable(
-                name: "Ankieta");
-
-            migrationBuilder.DropTable(
-                name: "Pytanie");
-
             migrationBuilder.DropTable(
                 name: "OdpowiedzUzytkownika");
 
@@ -169,6 +161,12 @@ namespace Ankieta.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Uzytkownik");
+
+            migrationBuilder.DropTable(
+                name: "Pytanie");
+
+            migrationBuilder.DropTable(
+                name: "AnkietaSzkolna");
         }
     }
 }

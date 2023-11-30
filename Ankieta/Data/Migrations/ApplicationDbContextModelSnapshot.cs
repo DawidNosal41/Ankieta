@@ -46,7 +46,7 @@ namespace Ankieta.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ankieta");
+                    b.ToTable("AnkietaSzkolna");
                 });
 
             modelBuilder.Entity("Ankieta.Models.Odpowiedz", b =>
@@ -57,11 +57,16 @@ namespace Ankieta.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("PytanieId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Tresc")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PytanieId");
 
                     b.ToTable("Odpowiedz");
                 });
@@ -77,9 +82,8 @@ namespace Ankieta.Data.Migrations
                     b.Property<int>("OdpowiedzId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Tresc")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PytanieId")
+                        .HasColumnType("int");
 
                     b.Property<int>("UzytkownikId")
                         .HasColumnType("int");
@@ -87,6 +91,8 @@ namespace Ankieta.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OdpowiedzId");
+
+                    b.HasIndex("PytanieId");
 
                     b.HasIndex("UzytkownikId");
 
@@ -101,7 +107,7 @@ namespace Ankieta.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("OdpowiedzUzytkownikaId")
+                    b.Property<int>("AnkietaSzkolnaId")
                         .HasColumnType("int");
 
                     b.Property<string>("Tresc")
@@ -114,32 +120,9 @@ namespace Ankieta.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OdpowiedzUzytkownikaId");
+                    b.HasIndex("AnkietaSzkolnaId");
 
                     b.ToTable("Pytanie");
-                });
-
-            modelBuilder.Entity("Ankieta.Models.PytanieAnkieta", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AnkietaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PytanieId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AnkietaId");
-
-                    b.HasIndex("PytanieId");
-
-                    b.ToTable("PytanieAnkieta");
                 });
 
             modelBuilder.Entity("Ankieta.Models.Uzytkownik", b =>
@@ -154,7 +137,13 @@ namespace Ankieta.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UzytkownikUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UzytkownikUserId");
 
                     b.ToTable("Uzytkownik");
                 });
@@ -361,12 +350,29 @@ namespace Ankieta.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Ankieta.Models.Odpowiedz", b =>
+                {
+                    b.HasOne("Ankieta.Models.Pytanie", "Pytanie")
+                        .WithMany("Odpowiedzi")
+                        .HasForeignKey("PytanieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pytanie");
+                });
+
             modelBuilder.Entity("Ankieta.Models.OdpowiedzUzytkownika", b =>
                 {
                     b.HasOne("Ankieta.Models.Odpowiedz", "Odpowiedz")
                         .WithMany("OdpowiedzUzytkownikas")
                         .HasForeignKey("OdpowiedzId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Ankieta.Models.Pytanie", "Pytanie")
+                        .WithMany("OdpowiedzUzytkownika")
+                        .HasForeignKey("PytanieId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Ankieta.Models.Uzytkownik", "Uzytkownik")
@@ -377,33 +383,31 @@ namespace Ankieta.Data.Migrations
 
                     b.Navigation("Odpowiedz");
 
+                    b.Navigation("Pytanie");
+
                     b.Navigation("Uzytkownik");
                 });
 
             modelBuilder.Entity("Ankieta.Models.Pytanie", b =>
                 {
-                    b.HasOne("Ankieta.Models.OdpowiedzUzytkownika", null)
-                        .WithMany("Pytanies")
-                        .HasForeignKey("OdpowiedzUzytkownikaId");
+                    b.HasOne("Ankieta.Models.AnkietaSzkolna", "AnkietaSzkolna")
+                        .WithMany()
+                        .HasForeignKey("AnkietaSzkolnaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AnkietaSzkolna");
                 });
 
-            modelBuilder.Entity("Ankieta.Models.PytanieAnkieta", b =>
+            modelBuilder.Entity("Ankieta.Models.Uzytkownik", b =>
                 {
-                    b.HasOne("Ankieta.Models.AnkietaSzkolna", "Ankieta")
-                        .WithMany("PytanieAnkietas")
-                        .HasForeignKey("AnkietaId")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "UzytkownikUser")
+                        .WithMany()
+                        .HasForeignKey("UzytkownikUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ankieta.Models.Pytanie", "Pytanie")
-                        .WithMany("PytanieAnkietas")
-                        .HasForeignKey("PytanieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Ankieta");
-
-                    b.Navigation("Pytanie");
+                    b.Navigation("UzytkownikUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -457,24 +461,16 @@ namespace Ankieta.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Ankieta.Models.AnkietaSzkolna", b =>
-                {
-                    b.Navigation("PytanieAnkietas");
-                });
-
             modelBuilder.Entity("Ankieta.Models.Odpowiedz", b =>
                 {
                     b.Navigation("OdpowiedzUzytkownikas");
                 });
 
-            modelBuilder.Entity("Ankieta.Models.OdpowiedzUzytkownika", b =>
-                {
-                    b.Navigation("Pytanies");
-                });
-
             modelBuilder.Entity("Ankieta.Models.Pytanie", b =>
                 {
-                    b.Navigation("PytanieAnkietas");
+                    b.Navigation("OdpowiedzUzytkownika");
+
+                    b.Navigation("Odpowiedzi");
                 });
 
             modelBuilder.Entity("Ankieta.Models.Uzytkownik", b =>

@@ -18,6 +18,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.TypPytania)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AnkietaSzkolna)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -31,9 +34,12 @@
                 @Html.DisplayFor(modelItem => item.TypPytania)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.AnkietaSzkolna.Name)
+            </td>
+            <td>
+                    <li class="nav-item">
+                        <a type="button" class="btn btn-success" asp-area="" asp-controller="OdpowiedzUzytkownika" asp-action="Index">Zaznacz swoją odpowiedź</a>
+                    </li>
             </td>
         </tr>
 }

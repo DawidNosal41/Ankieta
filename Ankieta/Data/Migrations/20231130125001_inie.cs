@@ -4,7 +4,7 @@
 
 namespace Ankieta.Data.Migrations
 {
-    public partial class init1 : Migration
+    public partial class inie : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

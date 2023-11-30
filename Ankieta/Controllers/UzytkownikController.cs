@@ -22,9 +22,8 @@ namespace Ankieta.Controllers
         // GET: Uzytkownik
         public async Task<IActionResult> Index()
         {
-              return _context.Uzytkownik != null ? 
-                          View(await _context.Uzytkownik.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Uzytkownik'  is null.");
+            var applicationDbContext = _context.Uzytkownik.Include(u => u.UzytkownikUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
         // GET: Uzytkownik/Details/5
@@ -36,6 +35,7 @@ namespace Ankieta.Controllers
             }
 
             var uzytkownik = await _context.Uzytkownik
+                .Include(u => u.UzytkownikUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (uzytkownik == null)
             {
@@ -48,6 +48,7 @@ namespace Ankieta.Controllers
         // GET: Uzytkownik/Create
         public IActionResult Create()
         {
+            ViewData["UzytkownikUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
 
@@ -56,7 +57,7 @@ namespace Ankieta.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Uzytkownik uzytkownik)
+        public async Task<IActionResult> Create([Bind("Id,Name,UzytkownikUserId")] Uzytkownik uzytkownik)
         {
             if (ModelState.IsValid)
             {
@@ -64,6 +65,7 @@ namespace Ankieta.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UzytkownikUserId"] = new SelectList(_context.Users, "Id", "Id", uzytkownik.UzytkownikUserId);
             return View(uzytkownik);
         }
 
@@ -80,6 +82,7 @@ namespace Ankieta.Controllers
             {
                 return NotFound();
             }
+            ViewData["UzytkownikUserId"] = new SelectList(_context.Users, "Id", "Id", uzytkownik.UzytkownikUserId);
             return View(uzytkownik);
         }
 
@@ -88,7 +91,7 @@ namespace Ankieta.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Uzytkownik uzytkownik)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,UzytkownikUserId")] Uzytkownik uzytkownik)
         {
             if (id != uzytkownik.Id)
             {
@@ -115,6 +118,7 @@ namespace Ankieta.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["UzytkownikUserId"] = new SelectList(_context.Users, "Id", "Id", uzytkownik.UzytkownikUserId);
             return View(uzytkownik);
         }
 
@@ -127,6 +131,7 @@ namespace Ankieta.Controllers
             }
 
             var uzytkownik = await _context.Uzytkownik
+                .Include(u => u.UzytkownikUser)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (uzytkownik == null)
             {

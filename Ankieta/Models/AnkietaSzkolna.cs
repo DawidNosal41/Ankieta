@@ -15,7 +15,7 @@ namespace Ankieta.Models
         [Display(Name = "Temat Ankiety")]
         public DateTime EndData { get; set; }
 
-        public ICollection<PytanieAnkieta> PytanieAnkietas { get; } = new List<PytanieAnkieta>();
+
 
 
     }

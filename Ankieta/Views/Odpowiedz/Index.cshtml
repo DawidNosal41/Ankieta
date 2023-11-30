@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Tresc)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pytanie)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -25,11 +28,12 @@
                 @Html.DisplayFor(modelItem => item.Tresc)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Pytanie.Tresc)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a class="btn-primary btn"   asp-controller="AnkietaSzkolna" asp-action="Index">Powrót do ankiet</a>
-                    
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

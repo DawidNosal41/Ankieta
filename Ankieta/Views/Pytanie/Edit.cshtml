@@ -24,6 +24,11 @@
                 <span asp-validation-for="TypPytania" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="AnkietaSzkolnaId" class="control-label"></label>
+                <select asp-for="AnkietaSzkolnaId" class="form-control" asp-items="ViewBag.AnkietaSzkolnaId"></select>
+                <span asp-validation-for="AnkietaSzkolnaId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
@@ -34,6 +39,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

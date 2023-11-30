@@ -19,15 +19,14 @@ namespace Ankieta.Controllers
             _context = context;
         }
 
-        // GET: Pytanie
+        // GET: Pytanies
         public async Task<IActionResult> Index()
         {
-              return _context.Pytanie != null ? 
-                          View(await _context.Pytanie.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Pytanie'  is null.");
+            var applicationDbContext = _context.Pytanie.Include(p => p.AnkietaSzkolna);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: Pytanie/Details/5
+        // GET: Pytanies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Pytanie == null)
@@ -36,6 +35,7 @@ namespace Ankieta.Controllers
             }
 
             var pytanie = await _context.Pytanie
+                .Include(p => p.AnkietaSzkolna)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pytanie == null)
             {
@@ -45,18 +45,19 @@ namespace Ankieta.Controllers
             return View(pytanie);
         }
 
-        // GET: Pytanie/Create
+        // GET: Pytanies/Create
         public IActionResult Create()
         {
+            ViewData["AnkietaSzkolnaId"] = new SelectList(_context.AnkietaSzkolna, "Id", "Name");
             return View();
         }
 
-        // POST: Pytanie/Create
+        // POST: Pytanies/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Tresc,TypPytania")] Pytanie pytanie)
+        public async Task<IActionResult> Create([Bind("Id,Tresc,TypPytania,AnkietaSzkolnaId")] Pytanie pytanie)
         {
             if (ModelState.IsValid)
             {
@@ -64,10 +65,11 @@ namespace Ankieta.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AnkietaSzkolnaId"] = new SelectList(_context.AnkietaSzkolna, "Id", "Name", pytanie.AnkietaSzkolnaId);
             return View(pytanie);
         }
 
-        // GET: Pytanie/Edit/5
+        // GET: Pytanies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Pytanie == null)
@@ -80,15 +82,16 @@ namespace Ankieta.Controllers
             {
                 return NotFound();
             }
+            ViewData["AnkietaSzkolnaId"] = new SelectList(_context.AnkietaSzkolna, "Id", "Name", pytanie.AnkietaSzkolnaId);
             return View(pytanie);
         }
 
-        // POST: Pytanie/Edit/5
+        // POST: Pytanies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Tresc,TypPytania")] Pytanie pytanie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Tresc,TypPytania,AnkietaSzkolnaId")] Pytanie pytanie)
         {
             if (id != pytanie.Id)
             {
@@ -115,10 +118,11 @@ namespace Ankieta.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["AnkietaSzkolnaId"] = new SelectList(_context.AnkietaSzkolna, "Id", "Namevp 889", pytanie.AnkietaSzkolnaId);
             return View(pytanie);
         }
 
-        // GET: Pytanie/Delete/5
+        // GET: Pytanies/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Pytanie == null)
@@ -127,6 +131,7 @@ namespace Ankieta.Controllers
             }
 
             var pytanie = await _context.Pytanie
+                .Include(p => p.AnkietaSzkolna)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (pytanie == null)
             {
@@ -136,7 +141,7 @@ namespace Ankieta.Controllers
             return View(pytanie);
         }
 
-        // POST: Pytanie/Delete/5
+        // POST: Pytanies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

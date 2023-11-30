@@ -4,19 +4,19 @@
 
 namespace Ankieta.Data.Migrations
 {
-    public partial class init3 : Migration
+    public partial class ini : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Name",
+                name: "Tresc",
                 table: "OdpowiedzUzytkownika");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Name",
+                name: "Tresc",
                 table: "OdpowiedzUzytkownika",
                 type: "nvarchar(max)",
                 nullable: false,
