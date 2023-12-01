@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<body style="color: black" class="tlo">
+    <center>
+        <div>
+            <h1>Odpowiedź użytkowika</h1>
+            <p>
+                <button type="button" class="btn btn-dark"><a style="text-decoration: none; color: white" asp-action="Create">Zaznacz swoją odpowiedź</a></button>
+            </p>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -37,11 +40,14 @@
                 @Html.DisplayFor(modelItem => item.Uzytkownik.Name)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                  <button type="button" class="btn btn-warning"><a style="text-decoration: none; color: white" asp-action="Edit" asp-route-id="@item.Id">Edytuj</a></button> |
+                  <button type="button" class="btn btn-secondary"><a style="text-decoration: none; color: white " asp-action="Details" asp-route-id="@item.Id">Detale</a></button> |
+                  <button type="button" class="btn btn-danger"><a style="text-decoration: none; color: white" asp-action="Delete" asp-route-id="@item.Id">Usuwanie</a></button>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
+</center>
+</body>

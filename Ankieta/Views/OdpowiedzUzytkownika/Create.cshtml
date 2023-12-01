@@ -4,9 +4,12 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<body style="color: black" class="tlo">
+    <center>
 
-<h4>OdpowiedzUzytkownika</h4>
+        <h4>Odpowiedź Uzytkownika</h4>
+
+    </center>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,14 +27,14 @@
                 <label asp-for="UzytkownikId" class="control-label"></label>
                 <select asp-for="UzytkownikId" class ="form-control" asp-items="ViewBag.UzytkownikId"></select>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-success" />
+                    <button type="button" class="btn btn-danger"><a style="text-decoration: none; color: white" asp-action="Index">Powrót</a></button>
+                </div>
         </form>
     </div>
 </div>
+</body>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 

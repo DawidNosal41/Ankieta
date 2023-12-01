@@ -65,7 +65,7 @@ namespace Ankieta.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Id", odpowiedz.PytanieId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedz.PytanieId);
             return View(odpowiedz);
         }
 
@@ -82,7 +82,7 @@ namespace Ankieta.Controllers
             {
                 return NotFound();
             }
-            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Id", odpowiedz.PytanieId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedz.PytanieId);
             return View(odpowiedz);
         }
 
@@ -118,7 +118,7 @@ namespace Ankieta.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Id", odpowiedz.PytanieId);
+            ViewData["PytanieId"] = new SelectList(_context.Pytanie, "Id", "Tresc", odpowiedz.PytanieId);
             return View(odpowiedz);
         }
 

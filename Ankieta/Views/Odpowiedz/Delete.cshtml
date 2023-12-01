@@ -4,11 +4,13 @@
     ViewData["Title"] = "Delete";
 }
 
-<h1>Delete</h1>
+<body style="color: black" class="tlo">
+    <center>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Czy na pewno chcesz to usunąć?</h3>
+</center>
 <div>
-    <h4>Odpowiedz</h4>
+
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
@@ -21,13 +23,14 @@
             @Html.DisplayNameFor(model => model.Pytanie)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pytanie.Id)
+            @Html.DisplayFor(model => model.Pytanie.Tresc)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+
+            <form style="text-align:center" asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="Usuń" class="btn btn-danger" /> |
+                <button type="button" class="btn btn-danger"><a style="text-decoration: none; color: white" asp-action="Index">Powrót</a></button>
+            </form>
 </div>
+</body>
